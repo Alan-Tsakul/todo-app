@@ -1,9 +1,13 @@
-import React from 'react';
+import React from "react";
 
 const NewTaskForm = () => {
-    return (
-        <input className="new-todo" placeholder="What needs to be done?" autoFocus></input>
-    );
+  return (
+    <input
+      className="new-todo"
+      placeholder="What needs to be done?"
+      autoFocus
+    ></input>
+  );
 };
 
 export default NewTaskForm;

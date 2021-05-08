@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from "react";
 
-
-const TasksFilter = () => {
+export default class TasksFilter extends Component {
+  render() {
     return (
-        <ul className="filters">
+      <ul className="filters">
         <li>
           <button className="selected">All</button>
         </li>
@@ -14,10 +14,6 @@ const TasksFilter = () => {
           <button>Completed</button>
         </li>
       </ul>
-    )
+    );
+  }
 }
-
-
-
-
-export default TasksFilter;
