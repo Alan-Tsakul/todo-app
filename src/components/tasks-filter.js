@@ -1,17 +1,25 @@
 import React, { Component } from "react";
 
 export default class TasksFilter extends Component {
+
   render() {
+    const {
+      onFilteredCompleted,
+      onFilteredActive,
+      allVisible
+    } = this.props;
+
+    
     return (
       <ul className="filters">
         <li>
-          <button className="selected">All</button>
+          <button onClick={allVisible}>All</button>
         </li>
         <li>
-          <button>Active</button>
+          <button onClick={onFilteredActive}>Active</button>
         </li>
         <li>
-          <button>Completed</button>
+          <button onClick={onFilteredCompleted}>Completed</button>
         </li>
       </ul>
     );

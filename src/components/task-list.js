@@ -2,18 +2,24 @@ import React from "react";
 
 import Task from "./task";
 
-import { formatDistanceToNow } from "date-fns";
+const TaskList = ({ todos, onDeleted, onToggleCompleted, onToggleActive, addItem }) => {
+  const elements = todos.map((item) => {
+    return (
+      <Task
+        key={item.id}
+        label={item.label}
+        completed={item.completed}
+        editing={item.editing}
+        onDeleted={() => onDeleted(item.id)}
+        onToggleActive={() => onToggleActive(item.id)}
+        onToggleCompleted={() => onToggleCompleted(item.id)}
+        hidden={item.hidden}
+        onItemAdded={() => addItem(item.id)}
+      />
+    );
+  });
 
-var result = formatDistanceToNow(new Date());
-
-const TaskList = () => {
-  return (
-    <ul className="todo-list">
-      <Task date={result} id="1" />
-      <Task date={result} id="2" />
-      <Task date={result} id="3" />
-    </ul>
-  );
+  return <ul className="todo-list">{elements}</ul>;
 };
 
 export default TaskList;
