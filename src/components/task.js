@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 
-import { formatDistanceToNow } from "date-fns";
-
-let result = formatDistanceToNow(new Date());
 
 
 export default class Task extends Component {
 
   render() {
-    let { label, onDeleted, onToggleCompleted, onToggleActive, completed, editing, hidden} = this.props;
+    let { label, result, onDeleted, onToggleCompleted, onToggleActive, completed, editing, hidden} = this.props;
     
     let classNames = "";
     if(completed) {
@@ -22,6 +19,7 @@ export default class Task extends Component {
     if(hidden) {
       classNames += ' hidden'
     }
+
     return (
       <li className={classNames} >
         <div className="view">
