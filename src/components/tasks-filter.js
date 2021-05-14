@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 
 export default class TasksFilter extends Component {
-
   render() {
-    const {
-      onFilteredCompleted,
-      onFilteredActive,
-      allVisible
-    } = this.props;
+    const { onFilteredCompleted, onFilteredActive, allVisible } = this.props;
 
-    
     return (
       <ul className="filters">
         <li>

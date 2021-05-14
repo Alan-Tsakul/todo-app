@@ -1,12 +1,18 @@
 import React from "react";
-import propTypes from 'prop-types';
+import propTypes from "prop-types";
 
 import Task from "./task";
 
-const TaskList = ({ todos, onDeleted, onToggleCompleted, onToggleActive, addItem }) => {
+const TaskList = ({
+  todos,
+  onDeleted,
+  onToggleCompleted,
+  onToggleActive,
+  addItem,
+}) => {
   const elements = todos.map((item) => {
     return (
-       < Task
+      <Task
         key={item.id}
         label={item.label}
         result={item.result}
@@ -27,7 +33,7 @@ const TaskList = ({ todos, onDeleted, onToggleCompleted, onToggleActive, addItem
 TaskList.defaultProps = {
   onDeleted: () => {},
   onToggleCompleted: () => {},
-  onToggleActive: () => {}
+  onToggleActive: () => {},
 };
 
 TaskList.propTypes = {
@@ -36,7 +42,7 @@ TaskList.propTypes = {
   onToggleActive: propTypes.func,
   onToggleCompleted: propTypes.func,
   onItemAdded: propTypes.func.isRequired,
-}
+};
 
 TaskList.propTypes = {
   todos: propTypes.shape({
@@ -44,9 +50,8 @@ TaskList.propTypes = {
     label: propTypes.string,
     completed: propTypes.bool,
     editing: propTypes.bool,
-    hidden: propTypes.bool
-  })
-}
-
+    hidden: propTypes.bool,
+  }),
+};
 
 export default TaskList;

@@ -1,23 +1,29 @@
 import React, { Component } from "react";
 
-
-
 export default class Task extends Component {
-
   render() {
-    let { label, result, onDeleted, onToggleCompleted, onToggleActive, completed, editing, hidden} = this.props;
-    
+    let {
+      label,
+      result,
+      onDeleted,
+      onToggleCompleted,
+      onToggleActive,
+      completed,
+      editing,
+      hidden,
+    } = this.props;
+
     let classNames = "";
-    if(completed) {
-      classNames += ' completed'
+    if (completed) {
+      classNames += " completed";
     }
 
-    if(editing) {
-      classNames += ' editing'
+    if (editing) {
+      classNames += " editing";
     }
-    
-    if(hidden) {
-      classNames += ' hidden'
+
+    if (hidden) {
+      classNames += " hidden";
     }
 
     return (
@@ -29,21 +35,18 @@ export default class Task extends Component {
             onClick={onToggleCompleted}
           />
           <label>
-            <span className="description">
-               {label}
-            </span>
+            <span className="description">{label}</span>
             <span className="created">{result}</span>
           </label>
-          <button
-            className="icon icon-edit"
-            onClick={onToggleActive}
-          ></button>
-          <button
-            className="icon icon-destroy"
-            onClick={onDeleted}
-          ></button>
+          <button className="icon icon-edit" onClick={onToggleActive}></button>
+          <button className="icon icon-destroy" onClick={onDeleted}></button>
         </div>
-        <input type="text" className="edit" value="Editing task" onChange={onToggleActive}/>
+        <input
+          type="text"
+          className="edit"
+          value="Editing task"
+          onChange={onToggleActive}
+        />
       </li>
     );
   }

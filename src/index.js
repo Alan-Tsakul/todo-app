@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { formatDistanceToNow } from "date-fns";
 
-
-
 import TaskList from "./components/task-list";
 import NewTaskForm from "./components/new-task-form";
 import Footer from "./components/footer";
@@ -11,9 +9,9 @@ import Footer from "./components/footer";
 export default class App extends Component {
   maxId = 100;
   currentDate = new Date();
-  createDate = new Date('2021-05-12T11:00:00'); 
+  createDate = new Date("2021-05-12T11:00:00");
   time = formatDistanceToNow(this.createDate, this.currentDate);
-  result = 'created ' + this.time + ' ago';
+  result = "created " + this.time + " ago";
 
   state = {
     todoData: [
@@ -30,7 +28,7 @@ export default class App extends Component {
       completed: false,
       editing: false,
       hidden: false,
-      result: this.result
+      result: this.result,
     };
   }
 
