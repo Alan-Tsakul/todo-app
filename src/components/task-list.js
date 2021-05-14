@@ -6,7 +6,7 @@ import Task from "./task";
 const TaskList = ({ todos, onDeleted, onToggleCompleted, onToggleActive, addItem }) => {
   const elements = todos.map((item) => {
     return (
-      <Task
+       < Task
         key={item.id}
         label={item.label}
         result={item.result}

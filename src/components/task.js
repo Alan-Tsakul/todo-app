@@ -21,7 +21,7 @@ export default class Task extends Component {
     }
 
     return (
-      <li className={classNames} >
+      <li className={classNames}>
         <div className="view">
           <input
             className="toggle"
