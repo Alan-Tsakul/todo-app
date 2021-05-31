@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-filename-extension */
+// /* eslint-disable react/sort-comp */
+// /* eslint-disable no-plusplus */
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -7,11 +10,8 @@ import NewTaskForm from "./components/new-task-form";
 import Footer from "./components/footer";
 
 export default class App extends Component {
-  maxId = 100;
+  minId = 100;
   currentDate = new Date();
-  createDate = new Date("2021-05-12T11:00:00");
-  time = formatDistanceToNow(this.createDate, this.currentDate);
-  result = "created " + this.time + " ago";
 
   state = {
     todoData: [
@@ -24,11 +24,12 @@ export default class App extends Component {
   createTodoItem(label) {
     return {
       label,
-      id: this.maxId++,
+      // eslint-disable-next-line no-plusplus
+      id: this.minId++,
       completed: false,
       editing: false,
-      hidden: false,
-      result: this.result,
+      showing: true,
+      result: `created ${formatDistanceToNow(this.currentDate, new Date())} ago`
     };
   }
 
@@ -43,75 +44,63 @@ export default class App extends Component {
   };
 
   addItem = (text) => {
-    const newItem = this.createTodoItem(text);
-    this.setState(({ todoData }) => {
-      const newArr = [...todoData, newItem];
-      return {
-        todoData: newArr,
-      };
-    });
+    if (text !== "") {
+      const newItem = this.createTodoItem(text);
+      this.setState(({ todoData }) => {
+        const newArr = [...todoData, newItem];
+        return {
+          todoData: newArr,
+        };
+      });
+    } else {
+      alert("Введите задачу в форму!!!");
+    }
   };
 
-  toggleProperty = (arr, id, labelName, propName) => {
+  toggleProperty = (arr, id, propName) => {
     const idx = arr.findIndex((el) => el.id === id);
     const oldItem = arr[idx];
     const newItem = {
       ...oldItem,
-      label: [labelName],
       [propName]: !oldItem[propName],
     };
     return [...arr.slice(0, idx), newItem, ...arr.slice(idx + 1)];
   };
 
   onToggleCompleted = (id) => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: this.toggleProperty(
-          todoData,
-          id,
-          "Completed task",
-          "completed"
-        ),
-      };
-    });
+    this.setState(({ todoData }) => ({
+      todoData: this.toggleProperty(todoData, id, "completed"),
+    }));
   };
 
   onToggleActive = (id) => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: this.toggleProperty(todoData, id, "Editing task", "editing"),
-      };
-    });
+    this.setState(({ todoData }) => ({
+      todoData: this.toggleProperty(todoData, id, "editing"),
+    }));
   };
 
   onFilteredCompleted = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.map((todo) =>
-          !todo.completed ? { ...todo, hidden: true } : { ...todo }
-        ),
-      };
-    });
+    this.setState(({ todoData }) => ({
+      todoData: todoData.map((todo) =>
+        !todo.completed ? { ...todo, showing: false } : { ...todo, showing: true},
+      ),
+    }));
   };
 
   onFilteredActive = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.map((todo) =>
-          todo.completed ? { ...todo, hidden: true } : { ...todo }
-        ),
-      };
-    });
+    this.setState(({ todoData }) => ({
+      todoData: todoData.map((todo) =>
+        todo.completed ? { ...todo, showing: false } : { ...todo, showing: true}
+      ),
+    }));
   };
 
   allVisible = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.map((todo) =>
-          todo.hidden ? { ...todo, hidden: false } : { ...todo }
-        ),
-      };
-    });
+    this.setState(({ todoData }) => ({
+      todoData: todoData.map((todo) =>
+        !todo.showing ? { ...todo, showing: true } : { ...todo }
+      ),
+    }));
   };
 
   clearCompleted = () => {

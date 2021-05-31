@@ -409,3 +409,7 @@ html .clear-completed:active {
 		bottom: 10px;
 	}
 }
+
+.second-form {
+	margin: 0;
+}
