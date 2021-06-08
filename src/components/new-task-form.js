@@ -1,47 +1,65 @@
-/* eslint-disable jsx-a11y/no-autofocus */
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/destructuring-assignment */
 import React, { Component } from "react";
-// import propTypes from "prop-types";
 
 export default class NewTaskForm extends Component {
   state = {
     label: "",
+    minutes: "",
+    seconds: "",
   };
 
-  // static defaultProps = {
-  //   onItemAdded: () => {},
-  // };
+  handleInputChange = (event) => {
+    const target = event.target,
+      value = target.value,
+      name = target.name;
 
-  // static propTypes = {
-  //   onItemAdded: propTypes.func,
-  // };
-
-  onLabelChange = (event) => {
     this.setState({
-      label: event.target.value,
+      [name]: value,
     });
-  };
+  }
 
   onSubmit = (evt) => {
+    const { label, minutes, seconds } = this.state;
     evt.preventDefault();
-    // eslint-disable-next-line react/prop-types
-    this.props.onItemAdded(this.state.label);
+    this.props.onItemAdded(label, minutes, seconds);
     this.setState({
       label: "",
+      minutes: "",
+      seconds: "",
     });
   };
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}>
+      <form onSubmit={this.onSubmit} className="new-todo-form">
         <input
           type="text"
           className="new-todo"
-          placeholder="What needs to be done?"
-          onChange={this.onLabelChange}
+          placeholder="Task"
+          onChange={(evt) => this.handleInputChange(evt)}
           value={this.state.label}
-         />
+          name="label"
+        />
+        <input type="submit" className="new-todo-submit" />
+        <input
+          type="number"
+          className="new-todo-form__timer"
+          placeholder="Min"
+          autoFocus
+          onChange={(evt) => this.handleInputChange(evt)}
+          value={this.state.minutes}
+          name="minutes"
+        />
+        <input type="submit" className="new-todo-submit" />
+        <input
+          type="number"
+          className="new-todo-form__timer"
+          placeholder="Sec"
+          autoFocus
+          onChange={(evt) => this.handleInputChange(evt)}
+          value={this.state.seconds}
+          name="seconds"
+        />
+        <input type="submit" className="new-todo-submit" />
       </form>
     );
   }

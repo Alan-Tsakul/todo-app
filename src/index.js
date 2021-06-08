@@ -1,6 +1,3 @@
-/* eslint-disable react/jsx-filename-extension */
-// /* eslint-disable react/sort-comp */
-// /* eslint-disable no-plusplus */
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { formatDistanceToNow } from "date-fns";
@@ -15,22 +12,35 @@ export default class App extends Component {
 
   state = {
     todoData: [
-      this.createTodoItem("Active task"),
-      this.createTodoItem("Active task"),
-      this.createTodoItem("Active task"),
+      this.createTodoItem("Active task", 3, 30),
+      this.createTodoItem("Active task", 3, 30),
+      this.createTodoItem("Active task", 3, 30),
     ],
   };
 
-  createTodoItem(label) {
+  createTodoItem(label, minutes, seconds) {
     return {
       label,
-      // eslint-disable-next-line no-plusplus
       id: this.minId++,
       completed: false,
       editing: false,
       showing: true,
-      result: `created ${formatDistanceToNow(this.currentDate, new Date())} ago`
+      result: `created ${formatDistanceToNow(
+        this.currentDate,
+        new Date()
+      )} ago`,
+      minutes: minutes,
+      seconds: seconds,
     };
+  }
+
+  componentDidMount() {
+    this.myInterval = setInterval(() => {
+      this.setState((prevState) => ({
+        minutes: prevState.minutes - 1,
+        seconds: prevState.seconds - 1,
+      }));
+    }, 1000);
   }
 
   deleteItem = (id) => {
@@ -43,9 +53,9 @@ export default class App extends Component {
     });
   };
 
-  addItem = (text) => {
-    if (text !== "") {
-      const newItem = this.createTodoItem(text);
+  addItem = (text, minutes, seconds) => {
+    if (text && minutes && seconds !== "") {
+      const newItem = this.createTodoItem(text, minutes, seconds);
       this.setState(({ todoData }) => {
         const newArr = [...todoData, newItem];
         return {
@@ -53,7 +63,7 @@ export default class App extends Component {
         };
       });
     } else {
-      alert("Введите задачу в форму!!!");
+      alert("Введите все 3 значения!");
     }
   };
 
@@ -82,7 +92,9 @@ export default class App extends Component {
   onFilteredCompleted = () => {
     this.setState(({ todoData }) => ({
       todoData: todoData.map((todo) =>
-        !todo.completed ? { ...todo, showing: false } : { ...todo, showing: true},
+        !todo.completed
+          ? { ...todo, showing: false }
+          : { ...todo, showing: true }
       ),
     }));
   };
@@ -90,7 +102,9 @@ export default class App extends Component {
   onFilteredActive = () => {
     this.setState(({ todoData }) => ({
       todoData: todoData.map((todo) =>
-        todo.completed ? { ...todo, showing: false } : { ...todo, showing: true}
+        todo.completed
+          ? { ...todo, showing: false }
+          : { ...todo, showing: true }
       ),
     }));
   };

@@ -1,17 +1,12 @@
-
-/* eslint-disable react/jsx-filename-extension */
-/* eslint-disable react/prop-types */
 import React from "react";
 import TasksFilter from "./tasks-filter";
 
 const Footer = ({
   todoCount,
   onFilteredCompleted,
-  // eslint-disable-next-line react/prop-types
   onFilteredActive,
   allVisible,
   clearCompleted,
-  
 }) => {
   return (
     <footer className="footer">
@@ -21,7 +16,11 @@ const Footer = ({
         onFilteredActive={onFilteredActive}
         allVisible={allVisible}
       />
-      <button type="button" className="clear-completed" onClick={clearCompleted}>
+      <button
+        type="button"
+        className="clear-completed"
+        onClick={clearCompleted}
+      >
         Clear completed
       </button>
     </footer>
