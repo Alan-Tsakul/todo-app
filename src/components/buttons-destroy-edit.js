@@ -1,22 +1,31 @@
-import React, {Component} from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-export default class ButtonsDestroyEdit extends Component {
-  render() {
-    return (
-      <>
-        <button
-          type="button"
-          className="icon icon-edit"
-          onClick={this.props.onToggleActive}
-          aria-label="A"
-        />
-        <button
-          type="button"
-          className="icon icon-destroy"
-          onClick={this.props.onDeleted}
-          aria-label="B"
-        />
-      </>
-    );
-  }
-}
+const ButtonsDestroyEdit = ({ onToggleActive, onDeleted }) => (
+  <>
+    <button
+      type="button"
+      className="icon icon-edit"
+      onClick={onToggleActive}
+      aria-label="A"
+    />
+    <button
+      type="button"
+      className="icon icon-destroy"
+      onClick={onDeleted}
+      aria-label="B"
+    />
+  </>
+);
+
+ButtonsDestroyEdit.propTypes = {
+  onToggleActive: PropTypes.func,
+  onDeleted: PropTypes.func,
+};
+
+ButtonsDestroyEdit.defaultProps = {
+  onToggleActive: () => {},
+  onDeleted: () => {},
+};
+
+export default ButtonsDestroyEdit;

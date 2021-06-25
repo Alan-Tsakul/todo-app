@@ -1,72 +1,71 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
-export default class Timer extends Component {
-  state = {
-    minutes: this.props.minutes,
-    seconds: this.props.seconds,
-  };
+const Timer = ({ prevMinutes, prevSeconds }) => {
+  const [minutes, setMinutes] = useState(prevMinutes);
+  const [seconds, setSeconds] = useState(prevSeconds);
+  const [status, setStatus] = useState("stop");
+  const foo = useRef();
 
-  onClick = (event) => {
-    if (event.target.name === "button-play") {
-      this.doSecondChange();
-      if (this.state.seconds === 1) {
-        this.doMinuteChange();
-        this.doSecondChange();
-      }
+  useEffect(() => {
+    if (status === "working") {
+      foo.current = setInterval(() => setSeconds((prev) => prev - 1), 1000);
     }
-    if (event.target.name === "button-pause") {
-      this.componentWillUnmount();
+    if (status === "stop") {
+      clearTimeout(foo.current);
     }
-  };
+  }, [status]);
 
-  doSecondChange = () => {
-    this.mySecondsInterval = setInterval(() => {
-      if (this.state.minutes === -1) {
-        this.componentWillUnmount();
-        this.setState((prevState) => ({
-          minutes: prevState.minutes + 1,
-          seconds: prevState.seconds - 58,
-        }));
-      }
-      if (this.state.seconds === 0 || this.state.seconds === -1) {
-        this.setState((prevState) => ({
-          minutes: prevState.minutes - 1,
-          seconds: prevState.seconds + 60,
-        }));
-      }
-      this.setState((prevState) => ({
-        seconds: prevState.seconds - 1,
-      }));
-    }, 1000);
-  };
+  useEffect(() => {
+    if (seconds === -1) {
+      setSeconds(59);
+      setMinutes((prev) => prev - 1);
+    }
+    if (minutes === -1) {
+      clearInterval(foo.current);
+      setSeconds(0);
+      setMinutes(0);
+    }
+  }, [seconds, minutes]);
 
-  doMinuteChange = () => {
-    this.myMinutesInterval = setInterval(() => {}, 60000);
-  };
-
-  componentWillUnmount() {
-    clearInterval(this.mySecondsInterval);
-    clearInterval(this.myMinutesInterval);
+  function handleTimer(evt) {
+    if (evt.target.name === "button-play") {
+      setStatus("working");
+    }
   }
 
-  render() {
-    const { minutes, seconds } = this.state;
-    return (
-      <>
-        <span className="description">
-          <button
-            name="button-play"
-            className="icon icon-play"
-            onClick={this.onClick}
-          ></button>
-          <button
-            name="button-pause"
-            className="icon icon-pause"
-            onClick={this.onClick}
-          ></button>
-          {minutes}:{seconds}
-        </span>
-      </>
-    );
+  function stopTimer(evt) {
+    if (evt.target.name === "button-pause") {
+      setStatus("stop");
+    }
   }
-}
+
+  return (
+    <>
+      <span className="description">
+        <button
+          name="button-play"
+          className="icon icon-play"
+          onClick={handleTimer}
+          type="button"
+          aria-label="Mute volume"
+        />
+        <button
+          name="button-pause"
+          className="icon icon-pause"
+          onClick={stopTimer}
+          type="button"
+          aria-label="Mute volume"
+        />
+        {minutes}:{seconds}
+      </span>
+    </>
+  );
+};
+
+Timer.propTypes = {
+  prevMinutes: PropTypes.string.isRequired,
+  prevSeconds: PropTypes.string.isRequired
+};
+
+export default Timer;

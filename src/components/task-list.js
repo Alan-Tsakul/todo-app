@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import Task from "./task";
 
 const TaskList = ({
@@ -11,7 +12,7 @@ const TaskList = ({
   const elements = todos.map((item) => (
     <Task
       key={item.id}
-      label={item.label}
+      prevLabel={item.label}
       result={item.result}
       completed={item.completed}
       editing={item.editing}
@@ -28,10 +29,19 @@ const TaskList = ({
   return <ul className="todo-list">{elements}</ul>;
 };
 
+TaskList.propTypes = {
+  todos: PropTypes.instanceOf(Array).isRequired,
+  onDeleted: PropTypes.func,
+  onToggleCompleted: PropTypes.func,
+  onToggleActive: PropTypes.func,
+  addItem: PropTypes.func,
+};
+
 TaskList.defaultProps = {
   onDeleted: () => {},
   onToggleCompleted: () => {},
   onToggleActive: () => {},
+  addItem: () => {},
 };
 
 export default TaskList;
